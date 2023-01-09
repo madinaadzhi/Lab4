@@ -24,10 +24,4 @@ public class Item {
     public void setWeight(int weight) {
         this.weight = weight;
     }
-
-    //    public Item() {
-//        Random random = new Random();
-//        this.value = random.nextInt(20) + 2;
-//        this.weight = random.nextInt(10) + 1;
-//    }
 }

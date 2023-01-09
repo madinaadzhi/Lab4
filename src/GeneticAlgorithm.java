@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class GeneticAlgorithm {
     private Bag bag;
@@ -22,22 +23,10 @@ public class GeneticAlgorithm {
         }
         return null;
     }
-//    public Bag doGeneticAlgorithm(Population population) {
-//        boolean[] childChromosome = crossoveringParentChromosome(population);
-//        System.out.println(Arrays.toString(childChromosome));
-//
-//        boolean[] mutantChromosome = mutatingChildChromosome(childChromosome);
-//        System.out.println(Arrays.toString(mutantChromosome));
-//
-//        Population newPopulation = createNewPopulation(population, mutantChromosome);
-//        for (int i = 0; i < 4; i++) {
-//            for (int j = 0; j < 6; j++) {
-//                System.out.print(newPopulation.getChromosomes()[i][j] + "  ");
-//            }
-//            System.out.println();
-//        }
-//        return null;
-//    }
+    public List<Item> doGeneticAlgorithm2(PossibleItems possibleItems) {
+
+        return new ArrayList<>();
+    }
 
     public boolean[] defineFittestChromosome(Population population) {
 //        int sumValueMin = 0;
@@ -94,4 +83,9 @@ public class GeneticAlgorithm {
         return newPopulation;
     }
 
+    public static List<Bag> mutate(InputParams inputParams) {
+
+
+        return null;
+    }
 }
