@@ -10,9 +10,8 @@ public class InputParams {
     private boolean uniqueItemsInPopulation;
     private int gensCntForCrossOvering;
     private int mutationProbability;
-    private int gensCntForMutation;
     private int mutationCnt;
-    public InputParams(int bagCapacity, int cntItems, int minValue, int maxValue, int minWeight, int maxWeight, int initialPopulation, int itemsCntInPopulation, boolean uniqueItemsInPopulation, int gensCntForCrossOvering, int mutationProbability, int gensCntForMutation, int mutationCnt) {
+    public InputParams(int bagCapacity, int cntItems, int minValue, int maxValue, int minWeight, int maxWeight, int initialPopulation, int itemsCntInPopulation, boolean uniqueItemsInPopulation, int gensCntForCrossOvering, int mutationProbability, int mutationCnt) {
         this.bagCapacity = bagCapacity;
         this.cntItems = cntItems;
         this.minValue = minValue;
@@ -24,7 +23,6 @@ public class InputParams {
         this.uniqueItemsInPopulation = uniqueItemsInPopulation;
         this.gensCntForCrossOvering = gensCntForCrossOvering;
         this.mutationProbability = mutationProbability;
-        this.gensCntForMutation = gensCntForMutation;
         this.mutationCnt = mutationCnt;
     }
 
@@ -62,10 +60,6 @@ public class InputParams {
 
     public int getMutationProbability() {
         return mutationProbability;
-    }
-
-    public int getGensCntForMutation() {
-        return gensCntForMutation;
     }
 
     public int getMaxValue() {

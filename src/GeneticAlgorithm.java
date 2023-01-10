@@ -1,91 +1,128 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class GeneticAlgorithm {
-    private Bag bag;
-    private PossibleItems possibleItems;
-    private Population population;
-
-    public Bag doGeneticAlgorithm(Population population) {
-        boolean[] childChromosome = crossoveringParentChromosome(population);
-        System.out.println(Arrays.toString(childChromosome));
-
-        boolean[] mutantChromosome = mutatingChildChromosome(childChromosome);
-        System.out.println(Arrays.toString(mutantChromosome));
-
-        Population newPopulation = createNewPopulation(population, mutantChromosome);
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 6; j++) {
-                System.out.print(newPopulation.getChromosomes()[i][j] + "  ");
-            }
-            System.out.println();
+    public static MutationResult mutate(InputParams in) {
+        List<Bag> bags = new ArrayList<>();
+        List<Item> items = generateItems(in.getCntItems(), in.getMinValue(), in.getMaxValue(),
+                in.getMinWeight(), in.getMaxWeight());
+        Population population = createPopulation(in.getInitialPopulation(),
+                in.isUniqueItemsInPopulation(), in.getCntItems());
+        for (int i = 0; i < in.getMutationCnt(); i++) {
+            System.out.println("iteration " + i);
+            Individ individ = defineFittestIdentity(items, population);
+            crossOveringAndMutation(individ, population, in.getGensCntForCrossOvering(), in.getMutationProbability(), in.getBagCapacity(), items);
+            individ = defineFittestIdentity(items, population);
+            Bag bag = getBag(individ, items);
+            bags.add(bag);
         }
-        return null;
-    }
-    public List<Item> doGeneticAlgorithm2(PossibleItems possibleItems) {
-
-        return new ArrayList<>();
+        return new MutationResult(bags, items);
     }
 
-    public boolean[] defineFittestChromosome(Population population) {
-//        int sumValueMin = 0;
-//        int sumValue = 0;
-//        int sumWeightMin = 0;
-//        int sumWeight = 0;
-//        for (Item item : possibleItems.getItems()) {
-//            for (int i = 0; i < population.getChromosomes().length; i++) {
-//                for (int j = 0; j < population.getChromosomes().length; j++) {
-//                    if (population.getChromosomes()[i][j]) {
-//                        sumValueMin = sumValueMin + possibleItems.getItems().get(0).getValue();
-//                        sumValue = sumValue + item.getValue();
-//                        if (sumWeight < bag.getCapacity()) {
-//                            sumWeightMin = sumWeightMin + possibleItems.getItems().get(0).getWeight();
-//                            sumWeight = sumWeight + item.getWeight();
-//                        }
-//                    }
-//                    if (sumValueMin < sumValue && sumWeightMin < sumWeight) {
-//                        bag.setBag(population.getChromosomes()[i]);
-//                    }
-//                }
-//            }
-//        }
-//        return bag.getBag();
-        return new boolean[]{false, true, true, false, false, false};
-    }
-
-    public boolean[] crossoveringParentChromosome(Population population) {
-//        Random random = new Random();
-//        int indexRandomChromosome = random.nextInt(5);
-//        parentChromosome = population.getChromosomes()[indexRandomChromosome];
-        boolean[] parent1Chromosome = defineFittestChromosome(population);
-        boolean[] parent2Chromosome = defineFittestChromosome(population);
-        boolean[] child = new boolean[6];
-        for (int i = 0; i < parent1Chromosome.length - 3; i++) {
-            for (int j = 3; j < parent2Chromosome.length; j++) {
-                child[i] = parent1Chromosome[i];
-                child[j] = parent2Chromosome[j];
+    private static Bag getBag(Individ individ, List<Item> items) {
+        Bag bag = new Bag();
+        List<Item> bagItems = new ArrayList<>();
+        for (int i = 0; i < individ.getGens().length; i++) {
+            if (individ.getGens()[i]) {
+                bagItems.add(items.get(i));
             }
         }
-        return child;
+        bag.setItems(bagItems);
+        return bag;
     }
 
-    public boolean[] mutatingChildChromosome(boolean[] childChromosome) {
-//        Random random = new Random();
-//        int indexRandomGen = random.nextInt(5);
-        childChromosome[4] = !childChromosome[4];
-        return childChromosome;
+    private static void crossOveringAndMutation(Individ fittestIdentity, Population population, int gensCntForCrossOvering, int mutationProbability, int bagCapacity, List<Item> items) {
+        int size = population.getIndivids().size();
+        int indexRandomIndivid;
+        Individ randomIndivid;
+        // selecting random individ
+
+
+        while (true) {
+            indexRandomIndivid = RandomUtils.getRandom().nextInt(size);
+            randomIndivid = population.getIndivids().get(indexRandomIndivid);
+            if (!randomIndivid.equals(fittestIdentity)) {
+                break;
+            }
+        }
+
+        System.out.println("Random individ for mutation: " + indexRandomIndivid);
+        // cross-overing
+        Individ childIndivid = new Individ(randomIndivid.getGens());
+        for (int i = 0; i < childIndivid.getGens().length - gensCntForCrossOvering; i++) {
+            childIndivid.getGens()[i] = fittestIdentity.getGens()[i];
+        }
+
+        // mutation
+        if (needMutation(mutationProbability)) {
+            int indexRandomGen = RandomUtils.getRandom().nextInt(size);
+            childIndivid.getGens()[indexRandomGen] = !childIndivid.getGens()[indexRandomGen];
+        }
+
+        // replace random individ by mutated one
+        int sum = 0;
+        for (int i = 0; i < childIndivid.getGens().length; i++) {
+            if (childIndivid.getGens()[i]) {
+                sum += items.get(i).getWeight();
+            }
+        }
+        if (sum <= bagCapacity) {
+            population.getIndivids().set(indexRandomIndivid, childIndivid);
+        }
     }
 
-    public Population createNewPopulation(Population population, boolean[] childChromosome) {
-        Population newPopulation = new Population();
-        newPopulation.getChromosomes()[0] = childChromosome;
-        return newPopulation;
+    private static boolean needMutation(int mutationProbability) {
+        return RandomUtils.getRandom().nextInt(100) < mutationProbability;
     }
 
-    public static List<Bag> mutate(InputParams inputParams) {
+    private static Individ defineFittestIdentity(List<Item> items, Population population) {
 
 
-        return null;
+        int maxValue = 0;
+        Individ individWithMaxValue = null;
+        for (Individ individ : population.getIndivids()) {
+            int value = getValue(individ, items);
+            if (value > maxValue) {
+                maxValue = value;
+                individWithMaxValue = individ;
+            }
+        }
+        return individWithMaxValue;
+    }
+
+    private static int getValue(Individ individ, List<Item> items) {
+        int sumGen = 0;
+        boolean[] gens = individ.getGens();
+        for (int i = 0; i < gens.length; i++) {
+            if (gens[i]) {
+                sumGen = sumGen + items.get(i).getValue();
+            }
+        }
+        return sumGen;
+    }
+
+    private static Population createPopulation(int initialPopulation, boolean uniqueItemsInPopulation, int cntItems) {
+        Population population = new Population();
+        List<Individ> individs = new ArrayList<>();
+        for (int i = 0; i < initialPopulation; i++) {
+            Individ individ = new Individ(cntItems);
+            if (uniqueItemsInPopulation) {
+                individ.getGens()[i] = true;
+            } else {
+                individ.getGens()[RandomUtils.getRandom().nextInt(initialPopulation)] = true;
+            }
+            individs.add(individ);
+        }
+        population.setIndivids(individs);
+        return population;
+    }
+
+    private static List<Item> generateItems(int cntItems, int minValue, int maxValue, int minWeight, int maxWeight) {
+        List<Item> items = new ArrayList<>();
+        for (int i = 0; i < cntItems; i++) {
+            items.add(new Item(RandomUtils.getRandom().nextInt((maxValue - minValue) + 1) + minValue,
+                    RandomUtils.getRandom().nextInt((maxWeight - minWeight) + 1) + minWeight));
+        }
+        return items;
     }
 }

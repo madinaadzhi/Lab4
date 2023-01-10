@@ -1,0 +1,14 @@
+     ArrayList usedIndexes = new ArrayList();
+        for (int i = 0; i < initialPopulation; i++) {
+            int index;
+            while (true) {
+                index = random.nextInt();
+                if (!usedIndexes.contains(index)) {
+                    usedIndexes.add(index);
+                    break;
+                }
+            }
+            Individ individ = new Individ();
+            individ.getGens()[index] = true;
+            individs.add(individ);
+        }
