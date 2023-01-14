@@ -46,10 +46,6 @@ public class InputParams {
         return initialPopulation;
     }
 
-    public int getItemsCntInPopulation() {
-        return itemsCntInPopulation;
-    }
-
     public boolean isUniqueItemsInPopulation() {
         return uniqueItemsInPopulation;
     }

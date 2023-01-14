@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class Item {
     private int value;
     private int weight;
@@ -13,16 +11,8 @@ public class Item {
         return value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
-    }
-
     public int getWeight() {
         return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
     }
 
     @Override

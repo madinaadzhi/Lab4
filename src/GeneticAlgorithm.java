@@ -9,7 +9,7 @@ public class GeneticAlgorithm {
         Population population = createPopulation(in.getInitialPopulation(),
                 in.isUniqueItemsInPopulation(), in.getCntItems());
         for (int i = 0; i < in.getMutationCnt(); i++) {
-            System.out.println("iteration " + i);
+//            System.out.println("iteration " + i);
             Individ individ = defineFittestIdentity(items, population);
             crossOveringAndMutation(individ, population, in.getGensCntForCrossOvering(), in.getMutationProbability(), in.getBagCapacity(), items);
             individ = defineFittestIdentity(items, population);
@@ -36,8 +36,6 @@ public class GeneticAlgorithm {
         int indexRandomIndivid;
         Individ randomIndivid;
         // selecting random individ
-
-
         while (true) {
             indexRandomIndivid = RandomUtils.getRandom().nextInt(size);
             randomIndivid = population.getIndivids().get(indexRandomIndivid);
@@ -46,7 +44,7 @@ public class GeneticAlgorithm {
             }
         }
 
-        System.out.println("Random individ for mutation: " + indexRandomIndivid);
+//        System.out.println("Random individ for crossOvering: " + indexRandomIndivid);
         // cross-overing
         Individ childIndivid = new Individ(randomIndivid.getGens());
         for (int i = 0; i < childIndivid.getGens().length - gensCntForCrossOvering; i++) {
@@ -76,8 +74,6 @@ public class GeneticAlgorithm {
     }
 
     private static Individ defineFittestIdentity(List<Item> items, Population population) {
-
-
         int maxValue = 0;
         Individ individWithMaxValue = null;
         for (Individ individ : population.getIndivids()) {
