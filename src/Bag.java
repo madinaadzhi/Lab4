@@ -14,6 +14,7 @@ public class Bag {
         return sum;
     }
 
+
     public int getWeight(){
         int sum = 0;
         for (Item item : items) {

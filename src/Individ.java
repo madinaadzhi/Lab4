@@ -3,7 +3,6 @@ import java.util.Arrays;
 public class Individ {
     private boolean[] gens;
 
-
     public Individ(int size) {
         this.gens = new boolean[size];
 

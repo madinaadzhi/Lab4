@@ -69,5 +69,6 @@ public class InputParams {
     public int getMutationCnt() {
         return mutationCnt;
     }
+
 }
 

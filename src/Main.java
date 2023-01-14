@@ -20,6 +20,5 @@ public class Main {
                 System.out.println("Iteration: " + i + ", Solution: " + bag.getValue());
             }
         }
-
     }
 }

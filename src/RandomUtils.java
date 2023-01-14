@@ -5,4 +5,5 @@ public class RandomUtils {
     public static Random getRandom(){
         return new Random(System.nanoTime());
     }
+
 }
