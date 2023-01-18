@@ -9,7 +9,7 @@ public class GeneticAlgorithm {
         Population population = createPopulation(in.getInitialPopulation(),
                 in.isUniqueItemsInPopulation(), in.getCntItems());
         for (int i = 0; i < in.getMutationCnt(); i++) {
-            System.out.println("iteration " + i);
+//            System.out.println("iteration " + i);
             Individ individ = defineFittestIdentity(items, population);
             crossOveringAndMutation(individ, population, in.getGensCntForCrossOvering(), in.getMutationProbability(), in.getBagCapacity(), items);
             individ = defineFittestIdentity(items, population);

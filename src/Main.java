@@ -14,6 +14,7 @@ public class Main {
             System.out.println(item);
         }
 
+        System.out.println();
         for (int i = 1; i <= bags.size(); i++) {
             Bag bag = bags.get(i - 1);
             if (i % 20 == 0) {
