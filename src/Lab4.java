@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class Main {
+public class Lab4 {
     public static void main(String[] args) {
         InputParams inputParams = new InputParams(250, 100, 2, 20, 1,
                 10, 100, 1, true,
